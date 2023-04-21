@@ -22,13 +22,13 @@ module AssertThatBDD
 		                puts '*** ERROR: Jira server error (500)'
 						return
 		            end
-			Dir.mkdir("#{outputFolder}") unless File.exists?("#{outputFolder}")
+			Dir.mkdir("#{outputFolder}") unless File.exist?("#{outputFolder}")
 			File.open("#{outputFolder}/features.zip", 'wb') {|f| f.write(response) }
 			features_count = 0
 			Zip::File.open("#{outputFolder}/features.zip") do |zip_file|
 			zip_file.each do |entry|
 				features_count = features_count + 1
-				File.delete("#{outputFolder}#{entry.name}") if File.exists?("#{outputFolder}#{entry.name}")
+				File.delete("#{outputFolder}#{entry.name}") if File.exist?("#{outputFolder}#{entry.name}")
 				entry.extract("#{outputFolder}#{entry.name}")
 			end
 			if response.headers.member?('features_count'.to_sym) and response.headers.member?('scenarios_count'.to_sym) then
